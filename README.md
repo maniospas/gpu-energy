@@ -2,7 +2,13 @@
 
 Creates a local database of GPU energy consumption tracking.
 Supports nvidia and amd vendors only, but may be extended to more.
+There are three steps to energy estimation:
 
+1. Record an idle energy profile (needed only if you need to subtract idle times from the next step)
+2. Record a workflow profile that outputs the task magnitude (e.g., number of tokens)
+3. Create an estimation of energy spent for new tasks
+
+Results verify setup compatibility, and provide both mean estimation and confidence margins.
 
 ## :zap: Quickstart
 
