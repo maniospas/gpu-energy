@@ -15,8 +15,10 @@ energy = Energy()
 prev_accumulated_energy = energy.vendor.get_gpu_accumulation()
 result = get_response("What is CERTH? Explain in one sentence.")
 energy_spent = energy.vendor.get_gpu_accumulation()-prev_accumulated_energy
+
 magnitude = result["prompt_eval_count"]+result["eval_count"]
 profile_vendor, estimation_mean, estimation_margin = energy.estimate("llama3.2:latest", magnitude)
+
 print("Response: "+result["response"])
 print(f"Energy cost for {profile_vendor} estimated {estimation_mean-estimation_margin:.3f} to {estimation_mean+estimation_margin:.3f} Joule consumption")
-print(f"Total real energy cost: {energy_spent:.3f} (THIS INCLUDES THE IDLE COST THAT THE ABOVE ESTIMATION EXCLUDES)")
+print(f"Total real energy cost: {energy_spent:.3f} (THIS INCLUDES THE IDLE AND OTHER WORKLOAD COST THAT THE ABOVE ESTIMATION EXCLUDES)")
