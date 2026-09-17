@@ -20,7 +20,7 @@ be shared between the exact same setups. This is done with the idiom
 below, where the idle function needs to return its own sleep duration.
 
 ```python
-# profile_idle.py
+# 1_profile_idle.py
 import time
 from energy.energy import Energy
 
@@ -41,7 +41,7 @@ You can make multiple recordings, and they aggregate (use `energy.clear(profile_
 to clear a profile's data):
 
 ```python
-# profile.py
+# 2_profile.py
 import requests # pip install requests
 from energy.energy import Energy
 
@@ -66,7 +66,7 @@ Now, to estimate the energy consumption for the gathered energy profile,
 just run the following:
 
 ```python
-# estimate.py
+# 3_estimate.py
 import requests # pip install requests
 from energy.energy import Energy
 
@@ -78,13 +78,17 @@ def get_response(prompt):
     assert response.status_code==200
     return response.json()
 
+get_response("Hi.") # hot start
+
 energy = Energy()
 prev_accumulated_energy = energy.vendor.get_gpu_accumulation()
 result = get_response("What is CERTH? Explain in one sentence.")
 energy_spent = energy.vendor.get_gpu_accumulation()-prev_accumulated_energy
+
 magnitude = result["prompt_eval_count"]+result["eval_count"]
 profile_vendor, estimation_mean, estimation_margin = energy.estimate("llama3.2:latest", magnitude)
+
 print("Response: "+result["response"])
 print(f"Energy cost for {profile_vendor} estimated {estimation_mean-estimation_margin:.3f} to {estimation_mean+estimation_margin:.3f} Joule consumption")
-print(f"Total real energy cost: {energy_spent:.3f} (THIS INCLUDES THE IDLE COST THAT THE ABOVE ESTIMATION EXCLUDES)")
+print(f"Total real energy cost: {energy_spent:.3f} (THIS INCLUDES THE IDLE AND OTHER WORKLOAD COST THAT THE ABOVE ESTIMATION EXCLUDES)")
 ```
