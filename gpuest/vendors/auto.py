@@ -1,4 +1,4 @@
-from energy.energy import GPUVendor
+from gpuest.energy import GPUVendor
 from contextlib import redirect_stdout, redirect_stderr
 import io
 
@@ -6,8 +6,8 @@ class AutoVendor(GPUVendor):
     def __init__(self, vendors:list[GPUVendor]|None=None, verbose=True):
         super().__init__()
         if vendors is None:
-            from energy.vendors.amd import AMDVendor
-            from energy.vendors.nvidia import NvidiaVendor
+            from gpuest.vendors.amd import AMDVendor
+            from gpuest.vendors.nvidia import NvidiaVendor
             vendors = [AMDVendor(), NvidiaVendor()]
         self.vendors: list[GPUVendor] = vendors
         self.vendor: GPUVendor|None = None

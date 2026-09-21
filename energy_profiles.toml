@@ -1,11 +1,11 @@
-[profiles.idle]
-mean = 71.49063999999933
-std = 30.216388386466623
-count = 30
-vendor = "nvidia (NVIDIA GeForce RTX 4060 Laptop GPU)"
+[profiles.idle."nvidia (NVIDIA GeForce RTX 4060 Laptop GPU)"]
+mean = 1.979417058480841
+std = 1.0234507393533365
+time_std = 0.004225292369650669
+count = 18
 
-[profiles."llama3.2:latest"]
-mean = 0.5863731948319454
-std = 0.20936192369773415
+[profiles."llama3.2:latest"."nvidia (NVIDIA GeForce RTX 4060 Laptop GPU)"]
+mean = 0.8790180393982882
+std = 0.17943381407017506
+time_std = 0.007801198179423499
 count = 10
-vendor = "nvidia (NVIDIA GeForce RTX 4060 Laptop GPU)"

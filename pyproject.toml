@@ -1,0 +1,69 @@
+# pyproject.toml
+
+[build-system]
+requires = ["setuptools>=77", "wheel"]
+build-backend = "setuptools.build_meta"
+
+
+[project]
+name = "gpuest"
+version = "0.1.0"
+description = "Estimate GPU energy consumption from recorded workload profiles."
+readme = "README.md"
+requires-python = ">=3.11"
+license = "Apache 2.0"
+
+authors = [
+    { name = "Emmanouil Krasanakis", email = "maniospas@hotmail.com" }
+]
+
+keywords = [
+    "gpu",
+    "energy",
+    "energy-consumption",
+    "nvidia",
+    "amd",
+    "machine-learning",
+    "llm",
+    "profiling"
+]
+
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering",
+    "Topic :: System :: Monitoring"
+]
+
+dependencies = [
+    "nvidia-ml-py",
+    "tomli-w"
+]
+
+
+[project.optional-dependencies]
+dev = [
+    "build",
+    "twine",
+    "pytest"
+]
+
+
+[project.urls]
+Homepage = "https://github.com/maniospas/gpu-energy"
+Repository = "https://github.com/maniospas/gpu-energy"
+Issues = "https://github.com/maniospas/gpu-energy/issues"
+
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["energy*"]
+exclude = ["tests*"]

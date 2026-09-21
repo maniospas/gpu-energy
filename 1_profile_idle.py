@@ -1,9 +1,4 @@
-import time
-from energy.energy import Energy
-
-def idle(duration: float):
-    time.sleep(duration)
-    return duration
+from gpuest import Energy
 
 energy = Energy("energy_profiles.toml")
-energy.record("idle", lambda: idle(duration=5.0), repetitions=10)
+energy.record_idle(intervals=5.0, batches=10, repetitions_per_batch=10)

@@ -1,5 +1,7 @@
 import requests # pip install requests
-from energy.energy import Energy
+import time
+from gpuest.energy import Energy
+
 
 model_name = "llama3.2:latest"
 def get_response(prompt):
@@ -13,12 +15,15 @@ get_response("Hi.") # hot start
 
 energy = Energy()
 prev_accumulated_energy = energy.vendor.get_gpu_accumulation()
+prev_time = time.perf_counter()
 result = get_response("What is CERTH? Explain in one sentence.")
+time_spent = time.perf_counter() - prev_time
 energy_spent = energy.vendor.get_gpu_accumulation()-prev_accumulated_energy
 
 magnitude = result["prompt_eval_count"]+result["eval_count"]
 profile_vendor, estimation_mean, estimation_margin = energy.estimate("llama3.2:latest", magnitude)
 
 print("Response: "+result["response"])
+print("Time spent: "+str(time_spent))
 print(f"Energy cost for {profile_vendor} estimated {estimation_mean-estimation_margin:.3f} to {estimation_mean+estimation_margin:.3f} Joule consumption")
 print(f"Total real energy cost: {energy_spent:.3f} (THIS INCLUDES THE IDLE AND OTHER WORKLOAD COST THAT THE ABOVE ESTIMATION EXCLUDES)")

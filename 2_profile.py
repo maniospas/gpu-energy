@@ -1,6 +1,6 @@
 # 2_profile.py
 import requests # pip install requests
-from energy.energy import Energy
+from gpuest.energy import Energy
 
 model_name = "llama3.2:latest"
 
@@ -16,4 +16,4 @@ energy = Energy()
 for prompt in [
     "Who am I?",
     "To be or not to be?"
-]: energy.record(model_name, lambda: ollama(prompt), repetitions=5, time_profile="idle")
+]: energy.record(model_name, lambda: ollama(prompt), batches=5, repetitions_per_batch=5)

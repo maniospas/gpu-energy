@@ -1,4 +1,4 @@
-from energy.energy import GPUVendor
+from gpuest.energy import GPUVendor
 
 class AMDVendor(GPUVendor):
     def __init__(self):
