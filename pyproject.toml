@@ -1,4 +1,7 @@
 # pyproject.toml
+# python -m build
+# python -m twine check dist/*
+# python -m twine upload dist/*
 
 [build-system]
 requires = ["setuptools>=77", "wheel"]
@@ -7,7 +10,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "gpuest"
-version = "0.1.0"
+version = "0.1.1"
 description = "Estimate GPU energy consumption from recorded workload profiles."
 readme = "README.md"
 requires-python = ">=3.9"
@@ -67,5 +70,5 @@ Issues = "https://github.com/maniospas/gpu-energy/issues"
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["energy*"]
+include = ["gpuest*"]
 exclude = ["tests*"]

@@ -1,4 +1,4 @@
-# GPU energy estimator
+# gpuest
 
 Creates a local database of GPU energy consumption tracking.
 Supports nvidia and amd vendors only, but may be extended to more.
@@ -47,19 +47,16 @@ and they aggregate (pass argument `reset=True` to overwrite previous values).
 ```python
 # 2_profile.py
 import requests  # pip install requests
-from gpuest.energy import Energy
+from gpuest import Energy
 
 model_name = "llama3.2:latest"
-
-
 def ollama(prompt: str):
     response = requests.post(
         "http://localhost:11434/api/generate",
         json={"model": model_name, "prompt": prompt, "stream": False})
     if response.status_code != 200: return 0  # skip this measurement
     result = response.json()
-    return result["prompt_eval_count"] + result["eval_count"]
-
+    return result["eval_count"]
 
 energy = Energy()
 for prompt in [
@@ -73,33 +70,23 @@ just run the following:
 
 ```python
 # 3_estimate.py
-import requests  # pip install requests
+import requests # pip install requests
 from gpuest.energy import Energy
 
 model_name = "llama3.2:latest"
-
-
 def get_response(prompt):
     response = requests.post(
         "http://localhost:11434/api/generate",
         json={"model": model_name, "prompt": prompt, "stream": False})
-    assert response.status_code == 200
+    assert response.status_code==200
     return response.json()
 
-
-get_response("Hi.")  # hot start
+result = get_response("What is CERTH? Explain in one sentence.")
 
 energy = Energy()
-prev_accumulated_energy = energy.vendor.get_gpu_accumulation()
-result = get_response("What is CERTH? Explain in one sentence.")
-energy_spent = energy.vendor.get_gpu_accumulation() - prev_accumulated_energy
-
-magnitude = result["prompt_eval_count"] + result["eval_count"]
+magnitude = result["eval_count"]
 profile_vendor, estimation_mean, estimation_margin = energy.estimate("llama3.2:latest", magnitude)
 
-print("Response: " + result["response"])
-print(
-    f"Energy cost for {profile_vendor} estimated {estimation_mean - estimation_margin:.3f} to {estimation_mean + estimation_margin:.3f} Joule consumption")
-print(
-    f"Total real energy cost: {energy_spent:.3f} (THIS INCLUDES THE IDLE AND OTHER WORKLOAD COST THAT THE ABOVE ESTIMATION EXCLUDES)")
+print("Response: "+result["response"])
+print(f"Energy cost for {profile_vendor} estimated {estimation_mean-estimation_margin:.3f} to {estimation_mean+estimation_margin:.3f} Joule consumption")
 ```
